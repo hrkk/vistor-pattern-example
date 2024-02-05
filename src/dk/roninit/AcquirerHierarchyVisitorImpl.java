@@ -14,9 +14,15 @@ public class AcquirerHierarchyVisitorImpl implements AcquirerHierarchyVisitor {
 
     @Override
     public Acquirer visit(Acquirer acquirer) {
-        System.out.println("Acquirer Name::" + acquirer.getName() + " id =" + acquirer.getId() + " streetName1=" + acquirer.getStreetName1());
-        if (inherited.getStreetName1() == null) {
+        if (inherited.getId() == acquirer.getId()) {
+            // self
+            return inherited;
+        }
+        if (inherited.getStreetName1() == null && acquirer.getStreetName1() != null) {
+            System.out.println("Inherit from ancestors = " + acquirer.getName());
             inherited.setStreetName1(acquirer.getStreetName1());
+        } else if (inherited.getStreetName1() != null) {
+            System.out.println("Field present on child - no inherit from ancestors = " + acquirer.getName());
         }
         return inherited;
     }

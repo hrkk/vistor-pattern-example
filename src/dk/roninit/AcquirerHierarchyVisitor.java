@@ -4,5 +4,8 @@ public interface AcquirerHierarchyVisitor {
 
     Acquirer visit(Acquirer acquirer);
 
+    Acquirer getInherited();
+
+
 
 }

@@ -5,20 +5,38 @@ import dk.roninit.AcquirerHierarchyVisitorImpl;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        Acquirer acquirerChild = new Acquirer(1, "Acquirer Child", "1.street");
-        AcquirerHierarchy[] acquirers = new AcquirerHierarchy[]{acquirerChild,new Acquirer(2, "Acquirer Parent", "Street 2")};
-        Acquirer total = performInherits(acquirerChild, acquirers);
-        System.out.println("Total Cost = "+total);
+        System.out.println("Example with NO inherits");
+        Acquirer acquirerChild = new Acquirer(1, "Acquirer Child", "Child Street");
+        Acquirer parent = new Acquirer(2, "Acquirer Parent", "Parent Street");
+        Acquirer grandParent = new Acquirer(3, "Acquirer GrandParent", "Grand parent street");
+        AcquirerHierarchy[] acquirers = new AcquirerHierarchy[]{acquirerChild, parent, grandParent};
+        Acquirer childWithInheritance = performInherits(acquirerChild, acquirers);
+        System.out.println("Acquirer child has NO inherited fields = " + childWithInheritance);
+
+
+        System.out.println("Example with inherits from parent");
+        acquirerChild = new Acquirer(1, "Acquirer Child", null); // empty street name
+        parent = new Acquirer(2, "Acquirer Parent", "Parent Street");
+        grandParent = new Acquirer(3, "Acquirer GrandParent", "Grand parent street");
+        acquirers = new AcquirerHierarchy[]{acquirerChild, parent, grandParent};
+        childWithInheritance = performInherits(acquirerChild, acquirers);
+        System.out.println("Acquirer child with inherited fields from parent = " + childWithInheritance);
+
+        System.out.println("Example with inherits from grand parent");
+        acquirerChild = new Acquirer(1, "Acquirer Child", null); // empty street name
+        parent = new Acquirer(2, "Acquirer Parent", null); // empty street name
+        grandParent = new Acquirer(3, "Acquirer GrandParent", "Grand parent street");
+        acquirers = new AcquirerHierarchy[]{acquirerChild, parent, grandParent};
+        childWithInheritance = performInherits(acquirerChild, acquirers);
+        System.out.println("Acquirer child with inherited fields from grandparent = " + childWithInheritance);
     }
 
 
     private static Acquirer performInherits(Acquirer acquirerChild, AcquirerHierarchy[] acquierHierarchy) {
         AcquirerHierarchyVisitor visitor = new AcquirerHierarchyVisitorImpl(acquirerChild);
-        Acquirer sum=null;
-        for(AcquirerHierarchy item : acquierHierarchy){
-            sum = item.accept(visitor);
+        for (AcquirerHierarchy item : acquierHierarchy) {
+            item.accept(visitor);
         }
-        return sum;
+        return visitor.getInherited();
     }
 }

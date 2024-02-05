@@ -2,5 +2,5 @@ package dk.roninit;
 
 public interface AcquirerHierarchy {
 
-    public Acquirer accept(AcquirerHierarchyVisitor visitor);
+    void accept(AcquirerHierarchyVisitor visitor);
 }

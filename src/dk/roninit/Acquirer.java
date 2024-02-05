@@ -7,7 +7,6 @@ public class Acquirer implements AcquirerHierarchy {
 
     private String streetName1;
 
-
     public Acquirer(int id, String name, String streetName1) {
         this.id = id;
         this.name = name;
@@ -32,8 +31,8 @@ public class Acquirer implements AcquirerHierarchy {
     }
 
     @Override
-    public Acquirer accept(AcquirerHierarchyVisitor visitor) {
-        return visitor.visit(this);
+    public void accept(AcquirerHierarchyVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
