@@ -1,23 +1,23 @@
-import dk.roninit.Book;
-import dk.roninit.ItemElement;
-import dk.roninit.ShoppingCartVisitor;
-import dk.roninit.ShoppingCartVisitorImpl;
+import dk.roninit.Acquirer;
+import dk.roninit.AcquirerHierarchy;
+import dk.roninit.AcquirerHierarchyVisitor;
+import dk.roninit.AcquirerHierarchyVisitorImpl;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        ItemElement[] items = new ItemElement[]{new Book(20, "1234"),new Book(100, "5678")};
-        int total = calculatePrice(items);
+        Acquirer acquirerChild = new Acquirer(1, "Acquirer Child", "1.street");
+        AcquirerHierarchy[] acquirers = new AcquirerHierarchy[]{acquirerChild,new Acquirer(2, "Acquirer Parent", "Street 2")};
+        Acquirer total = performInherits(acquirerChild, acquirers);
         System.out.println("Total Cost = "+total);
-
     }
 
 
-    private static int calculatePrice(ItemElement[] items) {
-        ShoppingCartVisitor visitor = new ShoppingCartVisitorImpl();
-        int sum=0;
-        for(ItemElement item : items){
-            sum = sum + item.accept(visitor);
+    private static Acquirer performInherits(Acquirer acquirerChild, AcquirerHierarchy[] acquierHierarchy) {
+        AcquirerHierarchyVisitor visitor = new AcquirerHierarchyVisitorImpl(acquirerChild);
+        Acquirer sum=null;
+        for(AcquirerHierarchy item : acquierHierarchy){
+            sum = item.accept(visitor);
         }
         return sum;
     }
